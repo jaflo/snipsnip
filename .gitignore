@@ -1,0 +1,13 @@
+/*.mp3
+/*.wav
+dist
+src/style.css
+
+__pycache__
+*.py[cod]
+*$py.class
+pip-log.txt
+pip-delete-this-directory.txt
+
+node_modules
+.serverless

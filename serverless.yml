@@ -1,0 +1,142 @@
+service: snipsnip
+
+provider:
+  name: aws
+  runtime: python3.6
+  memorySize: 2048
+  timeout: 30
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:*"
+      Resource:
+        - Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - ${self:provider.environment.BUCKET}
+        - Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - ${self:provider.environment.BUCKET}
+            - "/*"
+  environment:
+    BUCKET:
+      Fn::Join:
+        - ""
+        - - ${self:service}
+          - "-"
+          - ${self:provider.stage}
+          - "-audio"
+  stage: prod
+  region: us-east-1
+  # logRetentionInDays: 30
+
+functions:
+  upload:
+    handler: handler.upload_url
+    events:
+      - http:
+          path: upload
+          method: post
+          cors: true
+  analyze:
+    handler: handler.analyze
+    events:
+      - http:
+          path: analyze
+          method: post
+          cors: true
+  export:
+    handler: handler.export
+    events:
+      - http:
+          path: export
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    StaticSite:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.domain}
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+                - X-Amz-User-Agent
+              AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - ${self:custom.domain}
+    StaticSiteS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: StaticSite
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+              - s3:GetObject
+              Resource:
+                Fn::Join: [
+                  "", [
+                    "arn:aws:s3:::",
+                    {
+                      "Ref": "StaticSite"
+                    },
+                    "/*"
+                  ]
+                ]
+    AudioStorage:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+                - X-Amz-User-Agent
+              AllowedMethods:
+                - PUT
+                - GET
+              AllowedOrigins:
+                - "https://${self:custom.domain}"
+        LifecycleConfiguration:
+          Rules:
+            - Status: "Enabled"
+              ExpirationInDays: 3
+
+plugins:
+  - serverless-python-requirements
+  - serverless-s3-sync
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+  s3Sync:
+    - bucketName: ${self:custom.domain}
+      localDir: dist
+  domain: kurz.app
+
+package:
+  exclude:
+    - "*.mp3"
+    - venv/**
+    - node_modules/**
+    - src/**
+    - dist/**
+    - assets/**

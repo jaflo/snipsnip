@@ -1,0 +1,1177 @@
+$white: #fafffd;
+$black: #342e37;
+$blue: #3c91e6;
+$red: #db5461;
+$orange: #fa824c;
+$gray: rgba($black, 0.1);
+$solidgray: mix($black, $white, 10%);
+$darkgray: mix($black, $white, 50%);
+
+$fontsize: 16px;
+$pad: 8px;
+$borderradius: 4px;
+$contentwidth: 36.7em;
+$contentpad: 1em;
+$overlap: 18em;
+
+html, body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: $fontsize;
+	background: $white;
+	color: $black;
+	margin: 0;
+	padding: 0;
+	line-height: 1.4;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0;
+	td {
+		padding: 0;
+	}
+}
+
+input[type=text], input[type=email], textarea, button, .button {
+	background: $solidgray;
+	color: $black;
+	border: 2px solid transparent;
+	font-size: $fontsize;
+	border-radius: $borderradius;
+	padding: 0.3em 0.8em;
+	font-weight: normal;
+	font-family: inherit;
+	&:focus, &:hover {
+		border-color: darken($solidgray, 14%);
+		background: darken($solidgray, 3%);
+		outline: none;
+		color: black;
+	}
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
+
+button, .button {
+	cursor: pointer;
+	&.off {
+		color: rgba($black, 0.4);
+	}
+	&[disabled] {
+		opacity: 0.4;
+	}
+}
+
+header {
+	background: $black;
+	color: $white;
+	text-align: center;
+	padding: $contentpad;
+	padding-bottom: $overlap;
+	margin-bottom: -$overlap + $contentpad*2;
+	.wrap {
+		padding: 1em 0;
+	}
+	h1 {
+		font-size: 4em;
+		margin: 0 0 0.2em 0;
+	}
+	.tagline {
+		font-size: 1.3em;
+	}
+}
+
+h1 {
+	margin: 0.5em 0;
+}
+
+h2, #feedback label {
+	margin: 1em 0 0.3em 0;
+}
+
+p {
+	margin: 0.5em 0;
+}
+
+.wrap {
+	width: 100%;
+	max-width: $contentwidth;
+	padding: $contentpad;
+	margin: auto;
+	box-sizing: border-box;
+}
+
+main {
+	#text {
+		padding-top: $contentpad*3;
+	}
+	.above {
+		position: relative;
+		> div {
+			transition: 0.3s ease-in-out all;
+		}
+		.feedback {
+			visibility: hidden;
+			opacity: 0;
+			transform: translateY(1em);
+			position: absolute;
+			bottom: 0;
+			.options {
+				font-size: 0;
+				margin-bottom: $pad;
+				a {
+					display: inline-block;
+					margin-right: $pad;
+				}
+			}
+			.ty {
+				display: none;
+			}
+			&.collected {
+				.pls {
+					display: none;
+				}
+				.ty {
+					display: block;
+				}
+			}
+		}
+		&.ask {
+			.demo {
+				visibility: hidden;
+				opacity: 0;
+				transform: translateY(-1em);
+			}
+			.feedback {
+				visibility: visible;
+				opacity: 1;
+				transform: none;
+			}
+		}
+	}
+	.demo {
+		position: relative;
+		p {
+			margin-bottom: 0;
+		}
+		.em {
+			display: inline-block;
+			transition: 0.2s transform ease-in-out;
+			position: relative;
+			transform-origin: bottom left;
+			&:after {
+				content: "!!!!!!!!!!";
+				width: 0;
+				overflow: hidden;
+				position: absolute;
+				transition: 0.3s width ease-in-out;
+			}
+			&.look {
+				transform: rotate(-10deg) scale(1.4);
+				&:after {
+					width: 60px;
+				}
+			}
+		}
+		small {
+			opacity: 0.6;
+		}
+		.arrow {
+			position: absolute;
+			bottom: 100%;
+			left: 3em;
+			transform: rotate(120deg);
+			z-index: 20;
+			mix-blend-mode: difference;
+			pointer-events: none;
+			path {
+				stroke: white;
+				transition: 0.5s ease-out stroke-dashoffset, 0.3s ease-out fill;
+			}
+			.arc {
+				fill: none;
+				stroke-dashoffset: 0;
+				stroke-dasharray: 0,204,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6,5,6;
+				stroke-width: 2px;
+				marker-start: url(#pointy);
+			}
+			#pointy path {
+				fill: transparent;
+				stroke: none;
+			}
+			&.enter {
+				.arc {
+					stroke-dashoffset: 204;
+				}
+			}
+			&.show {
+				.arc {
+					animation: dash-move 1s linear infinite;
+					stroke-dasharray: 5,6;
+					stroke-dashoffset: 0;
+					transition: none;
+				}
+				#pointy path {
+					fill: white;
+				}
+			}
+			@keyframes dash-move {
+				to {
+					stroke-dashoffset: 11px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: $contentwidth*1.7) {
+	main {
+		display: flex;
+		justify-content: center;
+		.wrap {
+			margin: 0 0 0 $contentpad;
+			padding-top: 0;
+		}
+		#application {
+			flex: 0 0 $contentwidth;
+			align-self: flex-start;
+		}
+		.above {
+			min-height: $overlap - 1;
+			color: $white;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			margin-top: -$contentpad;
+			padding: $contentpad 0;
+			box-sizing: border-box;
+			.feedback {
+				bottom: $contentpad;
+			}
+		}
+		.demo {
+			p {
+				padding-bottom: 0.5em;
+			}
+			.arrow {
+				left: auto;
+				right: 100%;
+				bottom: 100%;
+				margin-bottom: -3em;
+				transform: none;
+			}
+		}
+		#text {
+			margin-top: -$contentpad*3;
+		}
+	}
+	footer {
+		.wrap {
+			width: auto;
+			max-width: ($contentwidth+$contentpad)*2;
+		}
+	}
+}
+
+#samplefile {
+	width: auto;
+	display: inline-block;
+	outline: none;
+	border: 0;
+	text-align: center;
+	transform: translate(0, 0); // no background in chrome, https://github.com/react-dnd/react-dnd/issues/788#issuecomment-367300464
+	.icon {
+		position: relative;
+		height: 3em;
+		width: 3em;
+		background: $orange;
+		$darker: darken($orange, 30%);
+		color: $darker;
+		$earsize: 0.8em;
+		margin: $earsize auto 0.6em auto;
+		i {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			font-size: 1.4em;
+			transform: translate(-50%, -50%);
+		}
+		&:before, &:after {
+			position: absolute;
+			bottom: 100%;
+			content: "";
+			display: block;
+			height: 0;
+		}
+		&:before {
+			left: 0;
+			right: $earsize;
+			border-top: $earsize + 0.1em solid $orange;
+			margin-bottom: -0.1em;
+		}
+		&:after {
+			width: 0;
+			right: 0;
+			border: $earsize/2 solid;
+			border-color: transparent transparent $darker $darker;
+		}
+	}
+	.label {
+		display: inline-block;
+		height: auto;
+		color: rgba($white, 0.8);
+		background: rgba(black, 0.4);
+		padding: 0.1em 0.5em;
+		border-radius: 9em;
+		font-size: 0.9em;
+		position: relative;
+		div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+		}
+		span {
+			position: relative;
+		}
+	}
+}
+
+#application {
+	position: relative;
+	box-shadow: 0 10px 20px rgba(black, 0.3);
+	border: 1px solid rgba(black, 0.2);
+	border-radius: 5px;
+	@media only screen and (max-width: $contentwidth+1) {
+		border-radius: 0;
+	}
+	background: $white;
+	overflow: hidden;
+	padding: 0;
+	> div {
+		padding: $contentpad;
+		box-sizing: border-box;
+		transition: 0.3s opacity ease-in-out, 0.3s transform ease-in-out;
+		opacity: 0;
+		transform: translateY(1em);
+		visibility: hidden;
+		&.gone {
+			opacity: 0;
+			transform: translateY(-1em);
+		}
+		&.open {
+			opacity: 1;
+			transform: none;
+			visibility: visible;
+		}
+	}
+	#results, #init, .fail, #feedback {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: $white;
+	}
+	#init, .fail {
+		.message {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 100%;
+			max-width: 400px;
+			box-sizing: border-box;
+			margin-top: 3em;
+			padding: 0 1em;
+			text-align: center;
+		}
+	}
+	.fail {
+		text-align: center;
+		.nope {
+			position: absolute;
+			width: 10em;
+			height: 10em;
+			transform: translate(-50%, -50%);
+			top: 50%;
+			left: 50%;
+			margin-top: -5em;
+			&:before, &:after {
+				position: absolute;
+				left: 50%;
+				top: 0;
+				content: "";
+				display: block;
+				width: 1em;
+				height: 10em;
+				margin-left: -0.5em;
+				background: $red;
+				transform: rotate(45deg);
+			}
+			&:after {
+				transform: rotate(-45deg);
+			}
+		}
+		.message {
+			padding: 1em;
+			position: absolute;
+			top: 50%;
+		}
+	}
+	#feedback {
+		overflow-y: auto;
+		h2 {
+			margin-top: 0;
+		}
+		label {
+			display: block;
+			font-weight: bold;
+		}
+		.options {
+			label {
+				margin: 0;
+				font-weight: normal;
+				display: inline-block;
+				text-align: center;
+				margin-right: 1em;
+				padding: 0.4em 1em;
+				background: $gray;
+				width: 4em;
+				border-radius: $borderradius;
+				.smiley {
+					font-size: 2em;
+				}
+			}
+		}
+		textarea, input[type=email] {
+			display: block;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		textarea {
+			max-width: 100%;
+			min-width: 100%;
+			height: 6em;
+			min-height: 2em;
+		}
+		.bottom {
+			margin-top: 1em;
+			a {
+				float: right;
+				font-size: 0.9em;
+				opacity: 0.6;
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
+	#anotherone {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 1.2em;
+		height: 0;
+		width: 0;
+		background: none;
+		border: 0;
+		z-index: 20;
+		opacity: 0.6;
+		transition: 0.3s opacity ease-in-out;
+		&:before, &:after {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			content: "";
+			display: block;
+			width: 0.1em;
+			height: 1em;
+			margin-left: -0.05em;
+			background: $black;
+			transform: translateY(-50%) rotate(45deg);
+		}
+		&:after {
+			transform: translateY(-50%) rotate(-45deg);
+		}
+	}
+}
+
+.progress {
+	height: 1em;
+	border-radius: $borderradius;
+	overflow: hidden;
+	background: $gray;
+	> div {
+		width: 0;
+		height: 100%;
+		background: $blue;
+		transition: 0.3s linear width;
+	}
+}
+
+@keyframes spin-center {
+	from { transform: rotate(0deg) translate(-50%, -50%) }
+	to { transform: rotate(360deg) translate(-50%, -50%) }
+}
+
+@keyframes spin {
+	from { transform: rotate(0deg) }
+	to { transform: rotate(360deg) }
+}
+
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	animation: spin-center 1s infinite ease-in-out;
+	transform-origin: top left;
+	width: 2em;
+	height: 2em;
+	display: none;
+	&:after {
+		position: absolute;
+		animation: spin 2s infinite linear;
+		transform-origin: center;
+		height: 100%;
+		width: 100%;
+		border: 4px solid transparent;
+		border-top-color: $blue !important; // because of minifier
+		content: "";
+		display: block;
+		box-sizing: border-box;
+		border-radius: 9em;
+		transform-origin: center;
+	}
+}
+
+.error {
+	background: $red;
+	color: $white;
+	padding: $pad $pad $pad 2*$pad+$fontsize;
+	color: white;
+	position: relative;
+	border-radius: $borderradius;
+	margin-top: 1em;
+	display: none;
+	text-align: left;
+	&:before {
+		display: block;
+		content: '\e809';
+		font-family: "fontello";
+		position: absolute;
+		left: $pad;
+		top: $pad;
+		font-size: 0.8em;
+		padding: 0.16em 0.2em;
+	}
+}
+
+#nojs {
+	z-index: 30;
+}
+
+#init {
+	position: absolute;
+	width: 100%;
+	z-index: 20;
+	.loader, .error {
+		display: block;
+	}
+}
+
+#wizard {
+	background: $white;
+	position: relative;
+	z-index: 10;
+	margin-bottom: -0.5em;
+	.content {
+		margin-left: 3em;
+		margin-bottom: 1em;
+		position: relative;
+		&:before {
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 3;
+			content: "";
+			display: block;
+			position: absolute;
+		}
+		p {
+			margin: 0;
+			margin-bottom: 1em;
+		}
+	}
+	.label {
+		display: flex;
+		align-items: center;
+		line-height: 1;
+		margin-bottom: $pad;
+		.number {
+			width: 1em;
+			height: 1em;
+			padding: 0.6em;
+			text-align: center;
+			background: $gray;
+			border-radius: 99px;
+		}
+		h3 {
+			font-size: 1em;
+			margin: 0 0 0 0.8em;
+			height: 1em;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			font-weight: normal;
+		}
+	}
+	.step {
+		transition: 0.2s opacity ease-in-out;
+		opacity: 0.6;
+		.number {
+			transition: 0.2s background ease-in-out, 0.2s color ease-in-out;
+		}
+		&.active {
+			opacity: 1;
+			.number {
+				background: $blue;
+				color: $white;
+				font-weight: bold;
+			}
+			.content:before {
+				display: none;
+			}
+		}
+	}
+	$height: 12em;
+	$width: $contentwidth - 2*1em - 3em - 2*1em;
+	$border: 0.25em;
+	$padding: 1em;
+	$spacing: $border*5;
+	@keyframes border-move {
+		from { background-position: 0 0, ($height+$width) ($height+2*$padding - $border), 0 ($width - 2*($spacing+$padding)), ($width+2*$padding - $border) 0 }
+		to { background-position: ($height+$width) 0, 0 ($height+2*$padding - $border), 0 0, ($width+2*$padding - $border) ($width - 2*($spacing+$padding)) }
+	}
+	.file {
+		.drop {
+			height: $height;
+			@media only screen and (max-height: 50em) and (max-width: $contentwidth+1) {
+				height: 6em;
+			}
+			width: $width;
+			background: linear-gradient(90deg, $darkgray 50%, transparent 50%),
+				linear-gradient(90deg, $darkgray 50%, transparent 50%),
+				linear-gradient(0deg, $darkgray 50%, transparent 50%),
+				linear-gradient(0deg, $darkgray 50%, transparent 50%);
+			background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+			background-size: $spacing $border, $spacing $border, $border $spacing, $border $spacing;
+			background-position: 0 0, $width $height, 0 $height, $width 0;
+			padding: $padding;
+			animation: border-move 5s infinite linear;
+			animation-play-state: paused;
+			@media only screen and (max-width: $contentwidth+1) {
+				width: auto;
+				background: none;
+				animation: none;
+				border: $border dashed $darkgray;
+			}
+			margin-bottom: 1em;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			&.over {
+				animation-play-state: running;
+			}
+			.manual {
+				margin-top: 1em;
+				position: relative;
+				overflow: hidden;
+				cursor: pointer;
+				input {
+					position: absolute;
+					height: 0;
+					width: 0;
+					border: 999px solid;
+					opacity: 0;
+					top: -99px;
+					left: -99px;
+					z-index: 2;
+					cursor: pointer;
+				}
+				&:hover button {
+					border-color: darken($solidgray, 14%);
+					background: darken($solidgray, 3%);
+					outline: none;
+					color: black;
+				}
+			}
+		}
+		&.processing {
+			.loader {
+				display: block;
+			}
+			.drop {
+				color: transparent;
+				.manual {
+					visibility: hidden;
+				}
+			}
+		}
+	}
+}
+
+.timeselect {
+	margin-bottom: 0.5em;
+	input {
+		width: 80px;
+	}
+}
+
+#results {
+	display: flex;
+	flex-direction: column;
+	.banner {
+		margin: -1em -1em 1em -1em;
+		background: $orange;
+		color: $white;
+		padding: 0.5em 1em;
+		position: relative;
+		button {
+			border: 0;
+			color: inherit;
+			float: right;
+			margin: -0.3em -0.6em -0.3em 0;
+			background: none;
+		}
+		&:after {
+			position: absolute;
+			top: 100%;
+			right: 3em;
+			border: 8px solid transparent;
+			border-top-color: $orange !important;
+			content: "";
+			display: block;
+			width: 0;
+			height: 0;
+		}
+	}
+	.header, .list {
+		line-height: 1;
+		margin: 0 -1em;
+		> div {
+			display: flex;
+			padding: 0 1em;
+			> div {
+				margin: 0.3em 0.5em;
+			}
+		}
+		.play, .filter {
+			width: 18px;
+		}
+		.length {
+			width: 70px;
+		}
+		.similarity {
+			width: 100px;
+		}
+		.transition {
+			flex: 1;
+		}
+	}
+	.header {
+		margin: -0.5em -1em 0.5em -1em;
+		> div > div {
+			position: relative;
+			cursor: pointer;
+			&:after {
+				position: absolute;
+				top: 0.1em;
+				right: 0;
+				width: 0;
+				height: 0;
+				border: 0.3em solid transparent;
+				border-bottom-color: $black;
+				display: block;
+				content: "";
+				opacity: 0;
+				transition: 0.2s all ease-in-out;
+				transform-origin: 50% 75%;
+			}
+		}
+		.asc:after {
+			opacity: 1;
+		}
+		.desc:after {
+			opacity: 1;
+			transform: rotate(180deg);
+		}
+		.filter {
+			&:after {
+				display: none;
+			}
+			.specify {
+				position: absolute;
+				top: -0.5em;
+				left: 100%;
+				margin-left: 1em;
+				width: 30em;
+				background: $white;
+				z-index: 2;
+				display: none;
+				input {
+					width: 90px;
+				}
+			}
+			&.open .specify {
+				display: block;
+			}
+		}
+		.transition:after {
+			right: 2em;
+		}
+	}
+	.list {
+		flex: 1;
+		overflow-y: scroll;
+		margin-bottom: 1em;
+		background:
+			linear-gradient($white 30%, transparent),
+			linear-gradient(transparent, $white 70%) 0 100%,
+			radial-gradient(farthest-side at 50% 0, rgba($black, 0.2), rgba($black, 0)),
+			radial-gradient(farthest-side at 50% 100%, rgba($black, 0.2), rgba($black, 0)) 0 100%;
+		background-repeat: no-repeat;
+		background-color: $white;
+		background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+		background-attachment: local, local, scroll, scroll;
+		.sample {
+			display: none;
+		}
+		&.in .row {
+			transform: none;
+			opacity: 1;
+			$elements: 20;
+			transition-delay: $elements*0.02s + 0.2s;
+			@for $i from 0 to $elements {
+				&:nth-child(#{$i}) {
+					transition-delay: $i*0.02s + 0.2s;
+				}
+			}
+		}
+		.row {
+			cursor: pointer;
+			position: relative;
+			transform: translateY(1em);
+			opacity: 0;
+			transition: 0.3s ease-in-out transform, 0.3s ease-in-out opacity;
+			&:hover {
+				background: $solidgray;
+				.transition div:after {
+					border-color: $solidgray;
+				}
+			}
+			&.selected {
+				background: $blue;
+				color: $white;
+				.similarity div, .transition:after, .transition div, .transition div:after {
+					background: $white;
+				}
+				.transition div:after {
+					border-color: $blue;
+				}
+				.play {
+					color: $white;
+				}
+			}
+			&.original {
+				.transition {
+					text-transform: uppercase;
+					letter-spacing: 0.1em;
+					&:after {
+						visibility: hidden;
+					}
+				}
+			}
+		}
+		.viewportalign {
+			display: block;
+			opacity: 0;
+			height: 100%;
+			width: 3px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			padding: 0;
+			border: 0;
+		}
+		.similarity {
+			div {
+				display: inline-block;
+				width: 0.7em;
+				height: 0.7em;
+				border-radius: 9em;
+				background: $black;
+				margin-right: 0.2em;
+			}
+		}
+		.transition {
+			position: relative;
+			height: 1em;
+			line-height: 1;
+			&:after, div, div:after {
+				display: block;
+				content: "";
+				background: $black;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+			&:after {
+				left: 0;
+				right: 0;
+				height: 2px;
+				opacity: 0.3;
+				z-index: 2;
+			}
+			div {
+				height: 2px;
+				z-index: 3;
+				&:after {
+					width: 0.5em;
+					height: 0.5em;
+					border: 2px solid $white;
+					z-index: 3;
+					border-radius: 9em;
+				}
+			}
+			.a {
+				left: 0;
+				&:after {
+					right: 0;
+					transform: translate(50%, -50%);
+				}
+			}
+			.b {
+				right: 0;
+				&:after {
+					left: 0;
+					transform: translate(-50%, -50%);
+				}
+			}
+		}
+	}
+	.player {
+		display: flex;
+		> div {
+			margin-left: 1em;
+		}
+		.controls {
+			margin: 0;
+			.prev, .next {
+				padding-left: 0.4em;
+				padding-right: 0.4em;
+			}
+		}
+		.scrubber {
+			flex: 1;
+			position: relative;
+			input {
+				display: block;
+				position: relative;
+				z-index: 2;
+				top: 3px;
+			}
+			.transition {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				height: 1.4em;
+				left: $fontsize/4+2px;
+				right: $fontsize/4+2px;
+				.marker {
+					position: absolute;
+					height: 100%;
+					width: 0;
+					min-width: 2px;
+					&:after, &:before {
+						content: "";
+						display: block;
+						bottom: 100%;
+						left: 50%;
+						transform: translateX(-50%);
+						position: absolute;
+					}
+					&:before {
+						content: "Transition";
+						text-transform: uppercase;
+						padding: 0.2em 0.4em;
+						font-size: 0.7em;
+						background: $red;
+						color: $white;
+						border-radius: $borderradius;
+						border: 2px solid $white;
+						margin-bottom: -4px;
+					}
+					&:after {
+						width: 0;
+						height: 0;
+						border: 6px solid transparent;
+						border-top-color: $red;
+						border-bottom-width: 0;
+						margin-bottom: -7px;
+					}
+				}
+				.loop {
+					position: absolute;
+					top: 100%;
+					border: 2px solid $red;
+					border-top: 0;
+					height: 2px;
+					display: none;
+				}
+			}
+		}
+	}
+	.loop {
+		i {
+			display: inline-block;
+		}
+		&.ed i {
+			transform: rotate(180deg);
+			transition: 0.3s transform ease-in-out;
+		}
+	}
+	@keyframes shift {
+		to { background-position: 100% 100% }
+	}
+	.export.ing {
+		background: repeating-linear-gradient(-45deg,
+			$gray, $gray 1em,
+			rgba($gray, 0.16) 1em, rgba($gray, 0.16) 2em);
+		background-size: 200% 200%;
+		animation: shift 2s infinite linear;
+		color: rgba($black, 0.5);
+	}
+}
+
+.scrubber {
+	input[type=range] {
+		-webkit-appearance: none;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		font-size: 1em;
+		background: none;
+	}
+	input[type=range]:focus {
+		outline: none;
+	}
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		background: $black;
+		border-radius: 0;
+		border: 0;
+		transform: translateY(-50%);
+	}
+	input[type=range]::-webkit-slider-thumb {
+		border: 2px solid $white;
+		height: 0.5em;
+		width: 0.5em;
+		border-radius: 9em;
+		background: $black;
+		cursor: pointer;
+		-webkit-appearance: none;
+		transform: translateY(-0.25em) translateY(-1px);
+		box-sizing: content-box;
+	}
+	input[type=range]:hover::-webkit-slider-thumb {
+		border-color: $black;
+		background: $white;
+	}
+	input[type=range]:focus::-webkit-slider-runnable-track {
+		background: $black;
+	}
+	input[type=range]::-moz-range-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		background: $black;
+		transform: translateY(-50%);
+	}
+	input[type=range]::-moz-range-thumb {
+		border: 2px solid $white;
+		height: 0.5em;
+		width: 0.5em;
+		border-radius: 9em;
+		background: $black;
+		cursor: pointer;
+		transform: translateY(-1px);
+	}
+	input[type=range]:hover::-moz-range-thumb {
+		border-color: $black;
+		background: $white;
+	}
+	input[type=range]::-moz-focus-outer {
+		border: 0;
+	}
+	input[type=range]::-ms-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		background: transparent;
+		border-color: transparent;
+		color: transparent;
+	}
+	input[type=range]::-ms-fill-lower {
+		background: $black;
+		border: 0;
+	}
+	input[type=range]::-ms-fill-upper {
+		background: $black;
+		border: 0;
+	}
+	input[type=range]::-ms-thumb {
+		border: 2px solid $white;
+		height: 0.5em;
+		width: 0.5em;
+		border-radius: 9em;
+		background: $black;
+		cursor: pointer;
+		height: 2px;
+	}
+	input[type=range]:focus::-ms-fill-lower {
+		background: $white;
+	}
+	input[type=range]:focus::-ms-fill-upper {
+		background: $white;
+	}
+	input[type=range]:hover::-ms-thumb {
+		border-color: $black;
+		background: $white;
+	}
+}
+
+footer {
+	background: $gray;
+	color: $darkgray;
+	margin-top: $contentpad;
+	.wrap {
+		display: flex;
+		.left {
+			flex: 1;
+		}
+	}
+}
+
+main, footer {
+	a {
+		color: inherit;
+		text-decoration: none;
+		border-bottom: 1px solid;
+	}
+}

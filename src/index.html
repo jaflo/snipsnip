@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>kurz.app: Seamlessly shorten songs. No cut ends!</title>
+	<link rel="stylesheet" href="css/fontello-embedded.css">
+	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- INJECT_STYLES -->
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+	<link rel="mask-icon" href="safari-pinned-tab.svg" color="#342e37">
+	<meta name="theme-color" content="#342e37">
+	<meta name="description" content="Shorten songs by splicing together start and end, removing the middle part.">
+	<meta name="robots" content="follow, index">
+	<meta property="og:title" content="kurz.app">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="https://kurz.app/logo.png">
+	<meta property="og:description" content="Shorten songs by splicing together start and end, removing the middle part.">
+	<meta property="og:url" content="https://kurz.app">
+	<meta name="twitter:card" content="app">
+	<meta name="twitter:title" content="kurz.app">
+	<meta name="twitter:description" content="Shorten songs by splicing together start and end, removing the middle part.">
+	<meta name="twitter:image" content="https://kurz.app/logo.png">
+	<meta name="twitter:url" content="https://kurz.app">
+</head>
+<body>
+	<header>
+		<div class="wrap">
+			<h1>kurz.app</h1>
+			<strong class="tagline">Seamlessly shorten songs. No cut ends!</strong>
+			<p>
+				Have the perfect song, but it's not the right length?
+				Don't fade or cut the end, shorten your audio by splicing together start and end!
+			</p>
+		</div>
+	</header>
+	<main>
+		<img src="logo.png" style="display:none" />
+		<div id="application" class="wrap">
+			<div id="init" class="open">
+				<div class="loader"></div>
+				<div class="message">Initalizing application...</div>
+			</div>
+			<div id="outdated" class="fail">
+				<div class="nope"></div>
+				<div class="message">
+					This website uses modern web standards to preview and process audio files
+					without additional software. This requires a recent web browser like Firefox or Chrome.
+					Please update and revisit.
+				</div>
+			</div>
+			<noscript>
+				<div id="nojs" class="fail open">
+					<div class="nope"></div>
+					<div class="message">
+						This website uses JavaScript to preview and edit audio in the browser.
+						Please enable JavaScript and reload the page to continue.
+					</div>
+				</div>
+			</noscript>
+			<div id="wizard">
+				<div class="active file step">
+					<div class="label">
+						<div class="number">1</div>
+						<h3>Select Music</h3>
+					</div>
+					<div class="content">
+						<div class="drop">
+							Drop a file here
+							<div class="manual">
+								<input type="file" id="file" tabindex="-1" />
+								<button>or select manually</button>
+							</div>
+						</div>
+						<div class="loader"></div>
+						<div class="error">
+							Your file is too large. Only audio files under 10 MB and shorter than 8 minutes can be processed.
+						</div>
+					</div>
+				</div>
+				<div class="upload step">
+					<div class="label">
+						<div class="number">2</div>
+						<h3>Upload</h3>
+					</div>
+					<div class="content">
+						<p>Your file is uploaded to be processed online and scheduled to be deleted automatically in the future.</p>
+						<div class="progress"><div></div></div>
+					</div>
+				</div>
+				<div class="analysis step">
+					<div class="label">
+						<div class="number">3</div>
+						<h3>Analysis</h3>
+					</div>
+					<div class="content">
+						<p>The song is analyzed to find possible transitions, this takes around 20 seconds for new songs but varies depending on song complexity.</p>
+						<div class="progress"><div></div></div>
+						<div class="error">
+							There was an error processing the selected file on the server.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="results">
+				<div class="header">
+					<div>
+						<div class="filter">
+							<i class="icon-filter" title="Filter by length"></i>
+							<div class="specify">
+								Length less than
+								<input type="text" placeholder="23 seconds" />
+								<span class="convert"></span>
+							</div>
+						</div>
+						<div class="length" data-index="1" title="Sort by length">Length</div>
+						<div class="similarity" data-index="0" title="Sort by quality">Quality</div>
+						<div class="transition" data-index="2" title="Sort by transition start time">A &rarr; B</div>
+					</div>
+				</div>
+				<div class="list">
+					<div class="sample row">
+						<div class="play">
+							<input type="text" class="viewportalign" />
+							<i class="icon-play-circled"></i>
+						</div>
+						<div class="length"></div>
+						<div class="similarity"></div>
+						<div class="transition">
+							<div class="a"></div>
+							<div class="b"></div>
+						</div>
+					</div>
+				</div>
+				<div class="banner">
+					Above are low-quality previews, export to get a high quality copy.
+					<button class="close">&times;</button>
+				</div>
+				<div class="player">
+					<div class="controls">
+						<button class="prev" title="Previous"><i class="icon-fast-backward"></i></button>
+						<button class="play" title="Play"><i class="icon-play"></i></button>
+						<button class="next" title="Next"><i class="icon-fast-forward"></i></button>
+					</div>
+					<div class="scrubber">
+						<input type="range" min="0" max="0" step="0.1" value="0" />
+						<div class="transition">
+							<div class="marker"></div>
+							<div class="loop"></div>
+						</div>
+					</div>
+					<div class="more">
+						<button class="loop off" title="Loop off"><i class="icon-repeat"></i></button>
+						<button class="export off" title="Export file">Export <i class="icon-download"></i></button>
+					</div>
+				</div>
+				<button id="anotherone" title="Shorten another song"></button>
+			</div>
+			<div id="feedback">
+				<h2>How was it?</h2>
+				<p>
+					Your file is being prepared to download. While you're waiting, mind telling us what you think?
+					Your download should be ready in a few seconds but take your time. Your feedback is important!
+				</p>
+				<form action="https://docs.google.com/forms/d/e/1FAIpQLSe5OrIgcMEwGpiqpfBhL2jfdc-twL-iZ15xW66p4DyrOjvSIw/formResponse" target="_blank" method="POST">
+					<label>Were you happy with your experience?</label>
+					<div class="options">
+						<label for="feedback_yes">
+							<div class="smiley">😀</div>
+							<div>
+								<input required type="radio" id="feedback_yes" name="entry.93382056" value="Yes" />
+								Yes
+							</div>
+						</label>
+						<label for="feedback_no">
+							<div class="smiley">😕</div>
+							<div>
+								<input required type="radio" id="feedback_no" name="entry.93382056" value="No" />
+								No
+							</div>
+						</label>
+					</div>
+
+					<label for="feedback_text">What was good/bad? Anything unclear or should be changed?</label>
+					<textarea required id="feedback_text" name="entry.1591396893" placeholder="This really needs more llamas but I like the orange you used."></textarea>
+
+					<label for="feedback_email">If you would be interested in future communication, what's your email address?</label>
+					<input id="feedback_email" type="email" name="entry.272643871" placeholder="email@example.com" />
+
+					<div class="bottom">
+						<button type="submit">Send Feedback</button>
+						<a href="#back" class="cancel">Return to application</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="text" class="wrap">
+			<div class="above">
+				<div class="demo">
+					<a href="audio.mp3" id="samplefile" draggable="true">
+						<div class="icon">
+							<i class="icon-music"></i>
+						</div>
+						<div class="progress label">
+							<div></div>
+							<span>audio.mp3</span>
+						</div>
+					</a>
+					<div class="arrow">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="180px" height="60px" viewBox="0 0 180 60" preserveAspectRatio="xMidYMid meet">
+							<defs>
+								<marker id="pointy" markerHeight="12" markerUnits="strokeWidth" markerWidth="10" orient="auto" refX="3" refY="0" viewBox="0 -4 20 20">
+									<path d="M 13 -4 L 0 0 L 13 4 z" fill="white" />
+								</marker>
+							</defs>
+							<path d="M14,45a112,112,0,0,1,157,-2" class="arc" />
+						</svg>
+					</div>
+					<p>Try <span class="em">dragging</span> the file into the window to try!</p>
+					<small>The demo song, Brake Dance by Alex, is licensed under CC BY 3.0.</small>
+				</div>
+				<div class="feedback">
+					<div class="pls">
+						<p>Are you happy with your experience?</p>
+						<div class="options">
+							<a href="https://docs.google.com/forms/d/e/1FAIpQLSe5OrIgcMEwGpiqpfBhL2jfdc-twL-iZ15xW66p4DyrOjvSIw/viewform?entry.93382056=Yes"
+								target="_blank" class="button">😀 Yes</a>
+							<a href="https://docs.google.com/forms/d/e/1FAIpQLSe5OrIgcMEwGpiqpfBhL2jfdc-twL-iZ15xW66p4DyrOjvSIw/viewform?entry.93382056=No"
+								target="_blank" class="button">😕 No</a>
+						</div>
+						<small>You'll be able to leave more detailed feedback afterwards.</small>
+					</div>
+					<div class="ty">
+						<p>
+							Thank you for leaving your feedback!
+						</p>
+						<small>
+							Closed too fast?
+							<a href="https://docs.google.com/forms/d/e/1FAIpQLSe5OrIgcMEwGpiqpfBhL2jfdc-twL-iZ15xW66p4DyrOjvSIw/viewform"
+								target="_blank">Open form again.</a>
+						</small>
+					</div>
+				</div>
+			</div>
+			<h2>Why?</h2>
+			<p>
+				Say you are making a video and have 3 minutes of footage but the song you want to use is 5 minutes long.
+				You could cut the song at 3 minutes, but then it just ends.
+				You could fade out the end, but it might be just after the beat drops. How anticlimactic...
+				You could stich together the start and end of the song, which sounds more natural, but is tedious.
+			</p>
+			<h2>What does this do?</h2>
+			<p>
+				The song is analyzed to find two similar parts (like a repeating chorus), remove everything in between, and stitch together the two pieces.
+				Done manually this is tedious since you need to listen to the entire thing and then match up the pieces, but
+				kurz.app automates exactly that! Just upload an audio file and pick from potential matches.
+			</p>
+			<h2>What's up with the name?</h2>
+			<p>
+				<i>kurz</i> means short in German. And everything is an app nowadays. It makes for a short and spiffy URL.
+			</p>
+			<h2>What do you think?</h2>
+			<p>
+				Have anything you want to say?
+				Feel free to leave feedback (good or bad)
+				<a href="https://docs.google.com/forms/d/e/1FAIpQLSe5OrIgcMEwGpiqpfBhL2jfdc-twL-iZ15xW66p4DyrOjvSIw/viewform">using this form</a>.
+				Questions, constructive criticism, and error reports are welcome!
+			</p>
+		</div>
+	</main>
+	<footer>
+		<div class="wrap">
+			<div class="left">
+				&copy; 2018
+			</div>
+			<div class="right">
+				made by <a href="https://florian.janke.me/">Florian</a>
+			</div>
+		</div>
+	</footer>
+	<!-- INJECT_SCRIPTS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+	<script src="js/min/zepto.min.js"></script>
+	<script src="js/api.js"></script>
+	<script src="js/player.js"></script>
+	<script src="js/wizard.js"></script>
+	<script src="js/more/ga.js"></script>
+</body>
+</html>
