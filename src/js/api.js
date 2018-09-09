@@ -51,8 +51,10 @@ const api = (() => {
 			});
 			request.addEventListener("load", () => {
 				let file = request.response;
-				file.lastModifiedDate = new Date();
-			    file.name = url.split("/").slice(-1)[0];
+				try {
+					file.lastModifiedDate = new Date();
+					file.name = url.split("/").slice(-1)[0];
+				} catch (e) {}
 				resolve(file);
 			});
 			request.open("GET", url);
