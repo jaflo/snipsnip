@@ -2,6 +2,7 @@
 /*.wav
 dist
 src/style.css
+venv
 
 __pycache__
 *.py[cod]

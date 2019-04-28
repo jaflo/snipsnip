@@ -33,6 +33,8 @@ provider:
 functions:
   upload:
     handler: handler.upload_url
+    layers:
+      - ${self:custom.npLayer}
     events:
       - http:
           path: upload
@@ -40,6 +42,8 @@ functions:
           cors: true
   analyze:
     handler: handler.analyze
+    layers:
+      - ${self:custom.npLayer}
     events:
       - http:
           path: analyze
@@ -47,6 +51,8 @@ functions:
           cors: true
   export:
     handler: handler.export
+    layers:
+      - ${self:custom.npLayer}
     events:
       - http:
           path: export
@@ -115,6 +121,7 @@ resources:
                 - GET
               AllowedOrigins:
                 - "https://${self:custom.domain}"
+                - "https://${self:custom.domain2}"
         LifecycleConfiguration:
           Rules:
             - Status: "Enabled"
@@ -127,10 +134,16 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+    pythonBin: /usr/bin/python
+    noDeploy:
+      - numpy
+      - scipy
   s3Sync:
     - bucketName: ${self:custom.domain}
-      localDir: dist
+      localDir: statics3
   domain: kurz.app
+  domain2: projects.loud.red
+  npLayer: arn:aws:lambda:us-east-1:668099181075:layer:AWSLambda-Python36-SciPy1x:2
 
 package:
   exclude:
@@ -140,3 +153,5 @@ package:
     - src/**
     - dist/**
     - assets/**
+    - .serverless/**
+    - __pycache__/**

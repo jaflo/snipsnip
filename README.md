@@ -1,6 +1,6 @@
 # snipsnip
 
-Seamlessly shorten songs. No cut ends! Live on https://kurz.app/
+Seamlessly shorten songs. No cut ends! Live at https://projects.loud.red/snipsnip/
 
 ## Overview
 

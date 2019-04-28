@@ -142,7 +142,7 @@ def export(event, context):
             Params = {
                 "Bucket": bucket,
                 "Key": key,
-                "ResponseContentDisposition": "attachment; filename=kurz.app-"+sha256[:6]+".mp3",
+                "ResponseContentDisposition": "attachment; filename=snipsnip-"+sha256[:6]+".mp3",
                 "ResponseContentType" : "audio/mpeg"
             }
         )
